@@ -3,3 +3,4 @@ public class EntradaInvalidaException extends Exception {
         super(mensagem);
     }
 }
+ 
