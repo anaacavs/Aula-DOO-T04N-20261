@@ -14,6 +14,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import java.util.Scanner;
 import weather.Previsao;
 
@@ -23,6 +36,15 @@ public class main {
 	
 	public static void main(String[] args) throws Exception{
 		Consulta();
+	}
+	
+	public static void Tela() {
+		JFrame tela = new JFrame("clima");
+		tela.setSize(500, 500);
+		tela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		JPanel consulta = new JPanel();
+		JTextArea cidade = new JTextArea();
 	}
 	
 	public static void Consulta() throws URISyntaxException, IOException, InterruptedException {
@@ -35,7 +57,7 @@ public class main {
 			HttpClient client = HttpClient.newHttpClient();
 			URI url = new URI("https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/"
 					+ cidade.replace(" ", "") + "/" + data.truncatedTo(ChronoUnit.SECONDS) 
-					+ "?key=5YDGGFYSZ29DDEPL83HHEHD52&&unitGroup=metric&include=current&lang=id");
+					+ "?key=5YDGGFYSZ29DDEPL83HHEHD52&&unitGroup=metric&include=current&lang=pt");
 		
 			HttpRequest request = HttpRequest.newBuilder(url)
 					.GET()

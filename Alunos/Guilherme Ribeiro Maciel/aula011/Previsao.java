@@ -1,20 +1,16 @@
 package weather;
 
+import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import weather.Days;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Previsao {
-	float temp;
-	float tempmin;
-	float tempmax;
-	float humidity;
-	@JsonProperty("conditions")
-	String condition;
-	float precip;
-	float winddir;
-	float windspeed;
-	String resolvedAddress;
+	
+	private String resolvedAddress;
+	private ArrayList<Days> days = new ArrayList<>();
+	
 	
 	public Previsao() {
 		
@@ -27,75 +23,19 @@ public class Previsao {
 	public void setResolvedAddress(String resolvedAddress) {
 		this.resolvedAddress = resolvedAddress;
 	}
-	
-	public float getTemp() {
-		return temp;
+
+	public ArrayList<Days> getDays() {
+		return days;
 	}
-	
-	public void setTemp(float temp) {
-		this.temp = temp;
-	}
-	
-	public float getTempmin() {
-		return tempmin;
-	}
-	
-	public void setTempmin(float tempmin) {
-		this.tempmin = tempmin;
-	}
-	
-	public float getTempmax() {
-		return tempmax;
-	}
-	
-	public void setTempmax(float tempmax) {
-		this.tempmax = tempmax;
-	}
-	
-	public float getHumidity() {
-		return humidity;
-	}
-	
-	public void setHumidity(float humidity) {
-		this.humidity = humidity;
-	}
-	
-	public String getCondition() {
-		return condition;
-	}
-	
-	public void setConditions(String condition) {
-		this.condition = condition;
-	}
-	
-	public float getPrecip() {
-		return precip;
-	}
-	
-	public void setPrecip(float precip) {
-		this.precip = precip;
-	}
-	
-	public float getWinddir() {
-		return winddir;
-	}
-	
-	public void setWinddir(float winddir) {
-		this.winddir = winddir;
-	}
-	
-	public float getWindspeed() {
-		return windspeed;
-	}
-	
-	public void setWindspeed(float windspeed) {
-		this.windspeed = windspeed;
+
+	public void setDays(ArrayList<Days> days) {
+		this.days = days;
 	}
 	
 	public String resumo() {
-		return "Cidade: " + resolvedAddress + ", Temperatura Atual: " + temp + ", Maxima do dia: " + tempmax 
-				+ ", Minima do dia: " + tempmin + ", Humidade: " + humidity + ", Condição do tempo: " + condition 
-				+ ", Precipitação de Chuva: " + precip + ", Velocidade do Vento: " + windspeed + ", Direção do Vento: " 
-				+ winddir;
+		return "Cidade: " + resolvedAddress + ", Temperatura Atual: " + days.get(0).getTemp() + ", Maxima do dia: " + days.get(0).getTempmax() 
+				+ ", Minima do dia: " + days.get(0).getTempmin() + ", Humidade: " + days.get(0).getHumidity() + ", Condição do tempo: " + days.get(0).getConditions() 
+				+ ", Precipitação de Chuva: " + days.get(0).getPrecip() + ", Velocidade do Vento: " + days.get(0).getWindspeed() + ", Direção do Vento: " + days.get(0).DirecaoV()
+				;
 	}
 }
