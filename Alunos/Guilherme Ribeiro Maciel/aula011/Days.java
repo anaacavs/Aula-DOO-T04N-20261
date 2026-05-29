@@ -4,20 +4,20 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Days {
-	private float temp;
-	private float tempmin;
-	private float tempmax;
-	private float humidity;
-	private String conditions;
-	private float precip;
-	private float winddir;
-	private float windspeed;
+	private static float temp;
+	private static float tempmin;
+	private static float tempmax;
+	private static float humidity;
+	private static String conditions;
+	private static float precip;
+	private static float winddir;
+	private static float windspeed;
 	
 	public Days() {
 		
 	}
 
-	public float getTemp() {
+	public static float getTemp() {
 		return temp;
 	}
 
@@ -25,7 +25,7 @@ public class Days {
 		this.temp = temp;
 	}
 
-	public float getTempmin() {
+	public static float getTempmin() {
 		return tempmin;
 	}
 
@@ -33,7 +33,7 @@ public class Days {
 		this.tempmin = tempmin;
 	}
 
-	public float getTempmax() {
+	public static float getTempmax() {
 		return tempmax;
 	}
 
@@ -41,7 +41,7 @@ public class Days {
 		this.tempmax = tempmax;
 	}
 
-	public float getHumidity() {
+	public static float getHumidity() {
 		return humidity;
 	}
 
@@ -49,7 +49,7 @@ public class Days {
 		this.humidity = humidity;
 	}
 
-	public String getConditions() {
+	public static String getConditions() {
 		return conditions;
 	}
 
@@ -57,7 +57,7 @@ public class Days {
 		this.conditions = conditions;
 	}
 
-	public float getPrecip() {
+	public static float getPrecip() {
 		return precip;
 	}
 
@@ -73,7 +73,7 @@ public class Days {
 		this.winddir = winddir;
 	}
 
-	public float getWindspeed() {
+	public static float getWindspeed() {
 		return windspeed;
 	}
 
@@ -81,7 +81,7 @@ public class Days {
 		this.windspeed = windspeed;
 	}
 	
-	public String DirecaoV() {
+	public static String DirecaoV() {
 		if(winddir>337.5 || winddir<=22.5) {
 			return "Norte";
 		}else if(winddir>22.5 || winddir<=67.5) {

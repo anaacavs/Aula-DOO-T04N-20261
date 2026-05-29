@@ -8,7 +8,7 @@ import weather.Days;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Previsao {
 	
-	private String resolvedAddress;
+	private static String resolvedAddress;
 	private ArrayList<Days> days = new ArrayList<>();
 	
 	
@@ -16,7 +16,7 @@ public class Previsao {
 		
 	}
 
-	public String getResolvedAddress() {
+	public static String getResolvedAddress() {
 		return resolvedAddress;
 	}
 
