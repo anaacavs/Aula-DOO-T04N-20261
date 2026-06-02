@@ -9,17 +9,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Show {
 	//ArrayList<Show> show = new ArrayList<>();
-		String name;
-		String language;
-		ArrayList<String> genres = new ArrayList<>();
-		//ArrayList<Rating> rating = new ArrayList<>();
-		float average;
-		String status;
-		LocalDate premiered;
-		LocalDate ended;
-		//ArrayList<Network> network = new ArrayList<>();
-		@JsonProperty("network.name")
-		String emissora;
+	String name;
+	String language;
+	ArrayList<String> genres = new ArrayList<>();
+	ArrayList<Rating> rating = new ArrayList<>();
+	String status;
+	LocalDate premiered;
+	LocalDate ended;
+	ArrayList<Network> network = new ArrayList<>();
 
 	public Show() {
 		
@@ -72,20 +69,20 @@ public class Show {
 	public void setEnded(LocalDate ended) {
 		this.ended = ended;
 	}
-	
-	public float getAverage() {
-		return average;
+
+	public ArrayList<Rating> getRating() {
+		return rating;
 	}
 
-	public void setAverage(float average) {
-		this.average = average;
+	public void setRating(ArrayList<Rating> rating) {
+		this.rating = rating;
 	}
 
-	public String getEmissora() {
-		return emissora;
+	public ArrayList<Network> getNetwork() {
+		return network;
 	}
 
-	public void setEmissora(String emissora) {
-		this.emissora = emissora;
+	public void setNetwork(ArrayList<Network> network) {
+		this.network = network;
 	}
 }

@@ -12,6 +12,8 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -32,14 +34,15 @@ import javax.swing.SwingConstants;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Arrays;
+import java.util.List;
 
 public class main {
 
 	static Scanner scan = new Scanner(System.in);
-	static ArrayList<Series> series = new ArrayList<>();
+	static List<Series> series = new ArrayList<Series>();
 	
 	public static void main(String[] args) {
 		Consulta();
@@ -49,6 +52,8 @@ public class main {
 		try {
 			String serie = scan.nextLine();
 			ObjectMapper mapper = new ObjectMapper();
+			mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+			mapper.registerModule(new JavaTimeModule());
 			Series series = new Series();
 		
 			HttpClient client = HttpClient.newHttpClient();
@@ -65,8 +70,8 @@ public class main {
 			if(response.statusCode() == 200) {
 				System.out.println(response.body());
 				String json = response.body();
-				series = mapper.readValue(json, Series.class);
-				System.out.println(series.resumo());
+				Series[] series1 = mapper.readValue(json, Series[].class);
+				System.out.println(series1[0].resumo());
 			}
 		} catch (URISyntaxException | IOException | InterruptedException e) {
 			// TODO Auto-generated catch block

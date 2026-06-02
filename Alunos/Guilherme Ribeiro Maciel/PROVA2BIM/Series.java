@@ -7,16 +7,25 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Series extends Show {
+public class Series {
+	ArrayList<Show> show = new ArrayList<>();
 	
+	public ArrayList<Show> getShow() {
+		return show;
+	}
+
+	public void setShow(ArrayList<Show> show) {
+		this.show = show;
+	}
 
 	public Series() {
 		
 	}
 	
 	public String resumo() {
-		return "Nome: " + name + ", Idioma: " + language + ", Genero: " + genres + ", Avaliação: " + average + ", Status: " + status
-				+ ", Data de Estreia: " + premiered + ", Data de Encerramento:" + ended + ", Emissora: " + emissora;
+		return "Nome: " + show.get(0).getName() + ", Idioma: " + show.get(0).getLanguage() + ", Genero: " + show.get(0).getGenres() + 
+				", Avaliação: " + show.get(0).getRating() + ", Status: " + show.get(0).getStatus() + ", Data de Estreia: " + show.get(0).getPremiered() 
+				+ ", Data de Encerramento:" + show.get(0).getEnded() + ", Emissora: " + show.get(0).getNetwork();
 		
 	}
 }
