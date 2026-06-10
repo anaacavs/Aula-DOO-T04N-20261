@@ -58,20 +58,58 @@ public class main {
 
 	static Arquivo jsonArquivo = new Arquivo();
 	static File arquivo = new File("Series.json");
+	//caminho do arquivo json é guardado la nas variaveis de ambiente do computador para nao ter que ficar trocando a string caso precise usar outro pc
 	static String caminho = System.getenv("arquivoJson");
 	static Path caminhoArquivo = Paths.get(caminho + arquivo);
 	static Scanner scan = new Scanner(System.in);
 	
-	public static void main(String[] args) throws JsonProcessingException {
+	public static void main(String[] args) {
 		ConsultarArquivo();
-		PegarNome();
-		Consulta();
-		ConsultaUnica();
-		ConsultaUnica();
+		if(jsonArquivo.getUsuario()==null) {
+			TelaIniciar();
+		}
+		TelaPrincipal();
 	}
 
-	private static void Consulta() {
+	public static void TelaPrincipal() {
+		JFrame principal = new JFrame("MySeries");
+		principal.setSize(1500, 750);
+		principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		JPanel menu = new JPanel();
+		JButton pesquisar = new JButton("Pesquisar Series");
+		JButton favoritos = new JButton("Series Favoritadas");
+		JButton assistidos = new JButton("Series Assistidas");
+		JButton watchlist = new JButton("Series que Pretendo Assistir");
+		menu.add(pesquisar);
+		menu.add(favoritos);
+		menu.add(watchlist);
+		menu.add(assistidos);
+		
+		JPanel pesquisa = new JPanel();
+		JTextField campo = new JTextField();
+		campo.setPreferredSize(new Dimension(100, 25));
+		JButton search = new JButton("Pesquisar");
+		JLabel info = new JLabel("Digite o Nome de Serie aqui!(somente Ingles)");
+		pesquisa.add(info);
+		pesquisa.add(campo);
+		pesquisa.add(search);
+		
+		JPanel resultado = new JPanel();
+		String[] colunas = {"ID", "Nome", "Idioma", "Generos", "Nota Geral", "Status Atual", "Data de Estreia", "Data de Termino", "Emissora"};
+		DefaultTableModel modelo = new DefaultTableModel(colunas, 0);
+		JTable tabela = new JTable(modelo);
+		JScrollPane resultados = new JScrollPane(tabela);
+		resultado.add(resultados);
+		
+		principal.add(menu, BorderLayout.NORTH);
+		principal.add(pesquisa, BorderLayout.CENTER);
+		principal.setVisible(true);
+	}
+	
+	private static void ConsultaSeries() {
 		try {
+			System.out.println("Entre com o nome da serie");
 			String serie = scan.nextLine();
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
@@ -104,7 +142,7 @@ public class main {
 		}
 	}
 	
-	private static void ConsultaUnica() {
+	private static void SalvarSerie() {
 		try {
 			String serie = scan.nextLine();
 			ObjectMapper mapper = new ObjectMapper();
@@ -125,7 +163,7 @@ public class main {
 			HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
 			
 			if(response.statusCode() == 200) {
-				System.out.println(response.body());
+				//System.out.println(response.body());
 				String json = response.body();
 				Show series1 = mapper.readValue(json, Show.class);
 				System.out.println(series1.sla());
@@ -139,16 +177,33 @@ public class main {
 		}
 	}
 
-	public static void PegarNome() throws JsonProcessingException {
-		jsonArquivo.setUsuario(scan.nextLine());
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.enable(SerializationFeature.INDENT_OUTPUT);
-		String json = mapper.writeValueAsString(jsonArquivo);
-		try {
-			Files.writeString(caminhoArquivo, json);
-		}catch (IOException e) {
-			System.out.println(e.getMessage());
-		}
+	public static void TelaIniciar() {
+		JFrame iniciando = new JFrame("Iniciando MySeries...");
+		iniciando.setSize(new Dimension(500, 250));
+		
+		JPanel dados = new JPanel();
+		JTextField nome = new JTextField();
+		JLabel info = new JLabel("Insira seu nome aqui:");
+		JButton iniciar = new JButton("Iniciar");
+		dados.add(info);
+		dados.add(nome);
+		dados.add(iniciar);
+		
+		iniciar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e1) {
+				try {
+					PegarNome(nome.getText());
+				} catch (JsonProcessingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				iniciando.setVisible(false);
+			}
+		});
+		
+		iniciando.add(dados);
+		iniciando.setVisible(true);
 	}
 	
 	public static void ConsultarArquivo() {
@@ -157,10 +212,9 @@ public class main {
 		try {
 			FileReader reader = new FileReader(caminho + arquivo);
 			jsonArquivo = mapper.readValue(reader, Arquivo.class);
-			System.out.println(jsonArquivo.resumo());
+			//System.out.println(jsonArquivo.resumo());
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			TelaIniciar();
 		} catch (StreamReadException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -172,5 +226,18 @@ public class main {
 			e.printStackTrace();
 		}
 		
+	}
+
+	private static void PegarNome(String nome) throws JsonProcessingException {
+		jsonArquivo.setUsuario(nome);
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+		mapper.registerModule(new JavaTimeModule());
+		String json = mapper.writeValueAsString(jsonArquivo);
+		try {
+			Files.writeString(caminhoArquivo, json);
+		}catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 }

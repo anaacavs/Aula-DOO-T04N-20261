@@ -2,7 +2,7 @@ package MySeries;
 
 import java.util.ArrayList;
 
-public class Arquivo extends Show{
+public class Arquivo{
 	private String usuario;
 	private ArrayList<Show> series = new ArrayList<>();
 	
