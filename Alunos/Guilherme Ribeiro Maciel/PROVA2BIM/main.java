@@ -80,6 +80,7 @@ public class main {
 			principal.setSize(1500, 750);
 			principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			
+			//painel do menu superior
 			JPanel menu = new JPanel();
 			JButton pesquisar = new JButton("Pesquisar Series");
 			JButton favoritos = new JButton("Series Favoritadas");
@@ -90,6 +91,7 @@ public class main {
 			menu.add(watchlist);
 			menu.add(assistidos);
 			
+			//painel da tela de pesquisa de series 
 			JPanel pesquisa = new JPanel();
 			JTextField campo = new JTextField();
 			campo.setPreferredSize(new Dimension(100, 25));
@@ -99,6 +101,7 @@ public class main {
 			pesquisa.add(campo);
 			pesquisa.add(search);
 			
+			//painel referente aos resultados da pesquisa das series
 			JPanel resultado = new JPanel();
 			String[] colunas = {"ID", "Nome", "Idioma", "Generos", "Nota Geral", "Status Atual", "Data de Estreia", "Data de Termino", "Emissora"};
 			DefaultTableModel modelo = new DefaultTableModel(colunas, 0);
@@ -106,16 +109,19 @@ public class main {
 			JScrollPane resultados = new JScrollPane(tabela);
 			resultado.add(resultados);
 			
+			//painel referente as listas de series salvas pelo usuario
 			JPanel listas = new JPanel();
 			JScrollPane listadeseries = new JScrollPane(tabela);
 			listas.add(listadeseries);
 			
+			//controlador de paineis dentro do programa
 			CardLayout cardControl = new CardLayout();
-			cardControl.addLayoutComponent(pesquisa, "Pesquisa");
-			cardControl.addLayoutComponent(resultado, "Resultado");
-			cardControl.addLayoutComponent(listas, "Listas");
 			
+			//tela pai que ira mostrar as telas de pesquisa, resultado e listas
 			JPanel telas = new JPanel(cardControl);
+			telas.add(pesquisa, "Pesquisa");
+			telas.add(resultado, "Resultado");
+			telas.add(listas, "Listas");
 			
 			principal.add(menu, BorderLayout.NORTH);
 			principal.add(telas, BorderLayout.CENTER);
@@ -124,14 +130,14 @@ public class main {
 			pesquisar.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					cardControl.show(pesquisa, "Pesquisa");
+					cardControl.show(telas, "Pesquisa");
 				}
 			});
 			
 			favoritos.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					cardControl.show(listas, "Listas");
+					cardControl.show(telas, "Listas");
 					//puxar a lista de series salvas como 1-favoritas
 				}
 			});
@@ -139,7 +145,7 @@ public class main {
 			assistidos.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					cardControl.show(listas, "Listas");
+					cardControl.show(telas, "Listas");
 					//puxar a lista de series salvas como 2-series assistidas
 				}
 			});
@@ -147,7 +153,7 @@ public class main {
 			watchlist.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					cardControl.show(listas, "Listas");
+					cardControl.show(telas, "Listas");
 					//puxar a lista de series salvas como 3-pretendo assistir
 				}
 			});
@@ -160,7 +166,7 @@ public class main {
 						modelo.addRow(new Object[] {series[i].show.get(0).getId(), series[i].show.get(0).getName(), series[i].show.get(0).getLanguage(), series[i].show.get(0).getGenres(), series[i].show.get(0).getRating().getAverage(),
 								series[i].show.get(0).getStatus(), series[i].show.get(0).getPremiered(), series[i].show.get(0).getEnded(), series[i].show.get(0).Emissora()});
 					}
-					cardControl.show(resultado, "Resultado");
+					cardControl.show(telas, "Resultado");
 				}
 			});
 		});
@@ -169,7 +175,6 @@ public class main {
 	private static void ConsultaSeries(String serie) {
 		try {
 			series = null;
-			System.out.println("Entre com o nome da serie");
 			//String serie = scan.nextLine();
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
