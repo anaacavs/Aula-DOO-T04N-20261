@@ -41,6 +41,8 @@ public class Main {
         return novo;
     }
 
+    // dados coletados na requiscao
+    // https://api.tvmaze.com/singlesearch/shows?q=breaking bad no postman
     private static void preCarregar(Usuario usuario) {
         usuario.adicionarFavorita(new Serie(169, "Breaking Bad", "English",
                 List.of("Drama", "Crime", "Thriller"), 9.2, "Ended", "2008-01-20", "2013-09-29", "AMC"));
