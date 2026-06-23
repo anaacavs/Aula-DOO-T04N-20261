@@ -35,7 +35,7 @@ fun main() = runBlocking {
 
 ## Conceito 2: Syntax Shortcuts
 
-### Timestamp: 03:23
+### Timestamp: 03:26
 
 ### O que é?
 Syntax Shortcuts são recursos da linguagem que permitem escrever menos código para realizar tarefas comuns.
